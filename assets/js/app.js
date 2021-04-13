@@ -130,8 +130,8 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 	circlesGroup.call(toolTip);
 
 	circlesGroup
-		.on("mouseover", data => toolTip.show(data))
-		.on("mouseout", data => toolTip.hide(data));
+		.on("mouseover", (data, index, element) => toolTip.show(data, element[index]))
+		.on("mouseout", (data, index, element) => toolTip.hide(data, element[index]));
 
 	return circlesGroup;
 }
