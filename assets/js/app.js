@@ -22,7 +22,7 @@ var xAxes = [
 	},
 	{
 		option: "income",
-		label: "Household Income (Median)"
+		label: "Household Income (USD Median)"
 	}
 ];
 
@@ -101,10 +101,17 @@ function renderYAxis(newYScale, yAxis) {
 // new circles
 function renderCircles(circlesGroup, newXScale, newYScale, chosenXAxis, chosenYAxis) {
 
-	circlesGroup.transition()
+	circlesGroup.selectAll("circle")
+		.transition()
 		.duration(1000)
 		.attr("cx", d => newXScale(d[chosenXAxis]))
 		.attr("cy", d => newYScale(d[chosenYAxis]));
+
+	circlesGroup.selectAll("text")
+		.transition()
+		.duration(1000)
+		.attr("x", d => newXScale(d[chosenXAxis]))
+		.attr("y", d => newYScale(d[chosenYAxis]));
 
 	return circlesGroup;
 }
@@ -125,7 +132,11 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 	var toolTip = d3.tip()
 		.attr("class", "tooltip")
 		.offset([110, 0])
-		.html(d => `${d.state}<br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}`);
+		.html(d => [
+			d.state,
+			formatToolTipText(xLabel, d[chosenXAxis]),
+			formatToolTipText(yLabel, d[chosenYAxis])
+		].join("<br>"));
 
 	circlesGroup.call(toolTip);
 
@@ -136,6 +147,16 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 	return circlesGroup;
 }
 
+function formatToolTipText(label, number) {
+	var line = `${label.split(" (")[0]}: `;
+	if (label.includes("%"))
+		line += `${number}%`;
+	else if (label.includes("USD"))
+		line += `$${number.toLocaleString()}`;
+	else line += number;
+	return line;
+}
+
 // Retrieve data from the CSV file and execute everything below
 d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 	if (err) throw err;
@@ -143,7 +164,6 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 	// parse data
 	peopleData.forEach(function (data) {
 		data.id = +data.id;
-		data.poverty = +data.poverty;
 		data.poverty = +data.poverty;
 		data.povertyMoe = +data.povertyMoe;
 		data.age = +data.age;
@@ -184,29 +204,24 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 		.call(leftAxis);
 
 	// append initial circles
-	var circlesGroup = chartGroup.selectAll("circle")
+	var circlesGroup = chartGroup.selectAll("g>circle")
 		.data(peopleData)
 		.enter()
-		.append("circle")
+		.append("g");
+
+	circlesGroup.append("circle")
 		.attr("cx", d => xLinearScale(d[chosenXAxis]))
 		.attr("cy", d => yLinearScale(d[chosenYAxis]))
 		.attr("r", 20)
 		.attr("fill", "green")
 		.attr("opacity", ".5");
 
-	// .tooltip {
-	// 	position: absolute;
-	// 	width: 135px;
-	// 	height: 60px;
-	// 	padding: 2px;
-	// 	padding-top: 8px;
-	// 	font: 12px sans-serif;
-	// 	color: white;
-	// 	text-align: center;
-	// 	background: #551aaf;
-	// 	border: 0;
-	// 	border-radius: 10px;
-	//   }
+	circlesGroup.append("text")
+		.attr("x", d => xLinearScale(d[chosenXAxis]))
+		.attr("y", d => yLinearScale(d[chosenYAxis]))
+		.attr("text-anchor", "middle")
+		.attr("dominant-baseline", "middle")
+		.text(d => d.abbr);
 
 	// Create group for two x-axis labels
 	var labelsGroup = chartGroup.append("g")
