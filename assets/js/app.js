@@ -58,20 +58,19 @@ var chosenXAxis = xAxes[0].option;
 var chosenYAxis = yAxes[0].option;
 
 // function used for updating x-scale var upon click on axis label
-function xScale(peopleData, chosenXAxis) {
+function xScale(censusData, chosenXAxis) {
 	// create xLinearScale
 	return d3.scaleLinear()
-		.domain([d3.min(peopleData, d => d[chosenXAxis]) * 0.8,
-		d3.max(peopleData, d => d[chosenXAxis]) * 1.2])
+		.domain([d3.min(censusData, d => d[chosenXAxis]) * 0.8,
+		d3.max(censusData, d => d[chosenXAxis]) * 1.2])
 		.range([0, width]);
 }
 
 // function used for updating y-scale var upon click on axis label
-function yScale(peopleData, chosenYAxis) {
+function yScale(censusData, chosenYAxis) {
 	// create yLinearScale
 	return d3.scaleLinear()
-		.domain([d3.min(peopleData, d => d[chosenYAxis]) * 0.8,
-		d3.max(peopleData, d => d[chosenYAxis]) * 1.2])
+		.domain([0, d3.max(censusData, d => d[chosenYAxis])])
 		.range([height, 0]);
 }
 
@@ -158,11 +157,11 @@ function formatToolTipText(label, number) {
 }
 
 // Retrieve data from the CSV file and execute everything below
-d3.csv("assets/data/data.csv").then(function (peopleData, err) {
+d3.csv("assets/data/data.csv").then(function (censusData, err) {
 	if (err) throw err;
 
 	// parse data
-	peopleData.forEach(function (data) {
+	censusData.forEach(function (data) {
 		data.id = +data.id;
 		data.poverty = +data.poverty;
 		data.povertyMoe = +data.povertyMoe;
@@ -182,10 +181,10 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 	});
 
 	// xLinearScale function above csv import
-	var xLinearScale = xScale(peopleData, chosenXAxis);
+	var xLinearScale = xScale(censusData, chosenXAxis);
 
 	// Create y scale function
-	var yLinearScale = yScale(peopleData, chosenYAxis)
+	var yLinearScale = yScale(censusData, chosenYAxis)
 
 	// Create initial axis functions
 	var bottomAxis = d3.axisBottom(xLinearScale);
@@ -205,7 +204,7 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 
 	// append initial circles
 	var circlesGroup = chartGroup.selectAll("g>circle")
-		.data(peopleData)
+		.data(censusData)
 		.enter()
 		.append("g");
 
@@ -273,8 +272,8 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 
 				// functions here found above csv import
 				// updates x scale for new data
-				xLinearScale = xScale(peopleData, chosenXAxis);
-				yLinearScale = yScale(peopleData, chosenYAxis);
+				xLinearScale = xScale(censusData, chosenXAxis);
+				yLinearScale = yScale(censusData, chosenYAxis);
 
 				// updates x axis with transition
 				xAxis = renderXAxis(xLinearScale, xAxis);
