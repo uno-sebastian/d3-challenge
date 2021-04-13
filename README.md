@@ -14,7 +14,7 @@ Check out the [app](assets/js/app.js)!
 
 ## Your Task
 
-### Core Assignment: D3 Dabbler (Required Assignment)
+### D3 Dabbler
 
 ![4-scatter](images/4-scatter.jpg)
 
@@ -30,7 +30,7 @@ Using the D3 techniques we taught you in class, create a scatter plot that repre
 
 - - -
 
-### Bonus: Impress the Boss (Optional Assignment)
+### Impress the Boss
 
 Why make a static graphic when D3 lets you interact with your data?
 
