@@ -39,6 +39,7 @@ body {
   padding: 2px;
   padding-top: 4px;
   text-align: center;
-  background: #e3e3e3;
+  color: #f5f5f5;
+  background-color: rgba(0, 0, 0, 0.8);
   border-radius: 5px;
 }
