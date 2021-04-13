@@ -4,6 +4,7 @@
 }
 
 /* Sticky Footer rules (https://getbootstrap.com/examples/sticky-footer/) */
+
 html {
   position: relative;
   min-height: 100%;
@@ -17,7 +18,8 @@ body {
 #footer {
   position: absolute;
   bottom: 0;
-  width: 100%; /* Set the fixed height of the footer here */
+  width: 100%;
+  /* Set the fixed height of the footer here */
   height: 10px;
   padding-top: 20px;
   padding-bottom: 40px;
@@ -28,4 +30,15 @@ body {
 #footer p {
   margin: 0;
   font-size: 16px;
+}
+
+.tooltip {
+  position: absolute;
+  width: 200px;
+  height: 80px;
+  padding: 2px;
+  padding-top: 4px;
+  text-align: center;
+  background: #e3e3e3;
+  border-radius: 5px;
 }

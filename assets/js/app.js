@@ -124,7 +124,7 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
 	var toolTip = d3.tip()
 		.attr("class", "tooltip")
-		.offset([80, -60])
+		.offset([110, 0])
 		.html(d => `${d.state}<br>${xLabel} ${d[chosenXAxis]}<br>${yLabel} ${d[chosenYAxis]}`);
 
 	circlesGroup.call(toolTip);
@@ -194,6 +194,20 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 		.attr("fill", "green")
 		.attr("opacity", ".5");
 
+	// .tooltip {
+	// 	position: absolute;
+	// 	width: 135px;
+	// 	height: 60px;
+	// 	padding: 2px;
+	// 	padding-top: 8px;
+	// 	font: 12px sans-serif;
+	// 	color: white;
+	// 	text-align: center;
+	// 	background: #551aaf;
+	// 	border: 0;
+	// 	border-radius: 10px;
+	//   }
+
 	// Create group for two x-axis labels
 	var labelsGroup = chartGroup.append("g")
 		.attr("transform", `translate(${width / 2}, ${height + 20})`);
@@ -205,7 +219,7 @@ d3.csv("assets/data/data.csv").then(function (peopleData, err) {
 		xLabels.push(labelsGroup.append("text")
 			.attr("x", 0)
 			.attr("y", (i + 1) * 20)
-			.attr("value", xAxes[i].option) 
+			.attr("value", xAxes[i].option)
 			.classed("active", xAxes[i].option === chosenXAxis)
 			.classed("inactive", xAxes[i].option !== chosenXAxis)
 			.text(xAxes[i].label));
