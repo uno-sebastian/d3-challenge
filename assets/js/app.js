@@ -199,7 +199,6 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
 	// append y axis
 	var yAxis = chartGroup.append("g")
 		.classed("y-axis", true)
-		.attr("transform", `translate(${width}, 0)`)
 		.call(leftAxis);
 
 	// append initial circles
@@ -232,7 +231,7 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
 	for (var i = 0; i < 3; i++) {
 		xLabels.push(labelsGroup.append("text")
 			.attr("x", 0)
-			.attr("y", (i + 1) * 20)
+			.attr("y", (i + 1) * 17)
 			.attr("value", xAxes[i].option)
 			.classed("active", xAxes[i].option === chosenXAxis)
 			.classed("inactive", xAxes[i].option !== chosenXAxis)
@@ -241,7 +240,7 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
 		yLabels.push(labelsGroup.append("text")
 			.attr("transform", "rotate(-90)")
 			.attr("x", height * 0.5)
-			.attr("y", -width * 0.5 - (i + 1) * 20)
+			.attr("y", -width * 0.5 - (i + 2) * 17)
 			.attr("value", yAxes[i].option)
 			.classed("active", yAxes[i].option === chosenYAxis)
 			.classed("inactive", yAxes[i].option !== chosenYAxis)
