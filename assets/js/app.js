@@ -210,15 +210,16 @@ d3.csv("assets/data/data.csv").then(function (censusData, err) {
 	circlesGroup.append("circle")
 		.attr("cx", d => xLinearScale(d[chosenXAxis]))
 		.attr("cy", d => yLinearScale(d[chosenYAxis]))
-		.attr("r", 20)
-		.attr("fill", "green")
-		.attr("opacity", ".5");
+		.attr("r", 10)
+		.attr("fill", "#88bdd3");
 
 	circlesGroup.append("text")
 		.attr("x", d => xLinearScale(d[chosenXAxis]))
 		.attr("y", d => yLinearScale(d[chosenYAxis]))
 		.attr("text-anchor", "middle")
 		.attr("dominant-baseline", "middle")
+		.attr("font-size", "10px")
+		.attr("fill", "white")
 		.text(d => d.abbr);
 
 	// Create group for two x-axis labels
